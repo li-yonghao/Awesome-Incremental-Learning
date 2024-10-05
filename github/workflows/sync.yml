@@ -10,21 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          repository: your-username/your-fork-repo
-          token: ${{ secrets.GITHUB_TOKEN }}
-      
+        uses: actions/checkout@v3  # 使用更稳定的版本
+
       - name: Add upstream repository
         run: git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
-      
+
       - name: Fetch upstream
         run: git fetch upstream
 
       - name: Merge upstream changes
-        run: git merge upstream/main
+        run: git merge upstream/main || true  # 如果发生冲突，防止工作流失败
       
       - name: Push changes
-        run: |
-          git push origin main
-
+        run: git push origin main
